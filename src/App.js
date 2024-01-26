@@ -15,6 +15,13 @@ class App extends Component {
   };
 
   onAddClick = () => {
+    const isDuplicate = this.state.todos.some((todo )=>{
+      return todo.title == this.state.todoInput
+    })
+
+    if (isDuplicate){
+      return;
+    }
     const todos = [...this.state.todos];
     todos.push({ title: this.state.todoInput, todo: false });
     this.setState({ todos });
