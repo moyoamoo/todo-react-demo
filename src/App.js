@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 
 class App extends Component {
-  state = { todos: ["Clean car", "Buy Bread", "Feed fish"] };
+  state = {
+    todos: [
+      { title: "Clean Car", done: false },
+      { title: "Buy Bread", done: true },
+      { title: "Feed Fish", done: false },
+    ],
+  };
 
   onTodoInput = (e) => {
     this.setState({ todoInput: e.target.value });
@@ -9,16 +15,22 @@ class App extends Component {
 
   onAddClick = () => {
     const todos = [...this.state.todos];
-    todos.push(this.state.todoInput);
+    todos.push({ title: this.state.todoInput, todo: false });
     this.setState({ todos });
   };
 
-  onDeleteClick = (todo) => {
-    console.log(todo);
-    const todos = [...this.state.todos]
-    const indexOf = todos.indexOf(todo);
-    todos.splice(indexOf, 1)
-    this.setState({todos})
+  onDeleteClick = (title) => {
+    const todos = [...this.state.todos];
+    const indexOf = todos.findIndex((todo) => (todo.title === title));
+    todos.splice(indexOf, 1);
+    this.setState({ todos });
+  };
+
+  onTodoToggleClick = (title) => {
+    const todos = [...this.state.todos];
+    const indexOf = todos.findIndex((todo) => (todo.title === title));
+    todos[indexOf].done = !todos[indexOf].done;
+    this.setState({ todos });
   };
 
   render() {
@@ -31,9 +43,11 @@ class App extends Component {
         <button onClick={this.onAddClick}>Add</button>
         {todos.map((todo) => {
           return (
-            <div>
-              <p>{todo}</p>
-              <button onClick={() => this.onDeleteClick(todo)}>Del</button>
+            <div className={todo.done ? "done" : "undone"}>
+              <p onClick={() => this.onTodoToggleClick(todo.title)}>{todo.title}</p>
+              <button onClick={() => this.onDeleteClick(todo.title)}>
+                Del
+              </button>
             </div>
           );
         })}
