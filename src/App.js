@@ -33,14 +33,26 @@ class App extends Component {
     this.setState({ todos });
   };
 
+  onDeleteAll = ()=>{
+    this.setState({todos: []})
+  }
+
   render() {
     console.log(this.state);
     const { todos } = this.state;
+
+    let totalTodos = 0;
+    todos.forEach(todo =>{
+      if (!todo.done){
+        totalTodos++
+      }
+    })
 
     return (
       <>
         <input type="text" onInput={this.onTodoInput} />
         <button onClick={this.onAddClick}>Add</button>
+        <h1>Total todos: {totalTodos}</h1>
         {todos.map((todo) => {
           return (
             <div className={todo.done ? "done" : "undone"}>
@@ -51,6 +63,7 @@ class App extends Component {
             </div>
           );
         })}
+        <button onClick={this.onDeleteAll}>Delete All</button>
       </>
     );
   }
