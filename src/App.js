@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Interface from "./Components/Interface";
 
 class App extends Component {
   state = {
@@ -21,50 +22,43 @@ class App extends Component {
 
   onDeleteClick = (title) => {
     const todos = [...this.state.todos];
-    const indexOf = todos.findIndex((todo) => (todo.title === title));
+    const indexOf = todos.findIndex((todo) => todo.title === title);
     todos.splice(indexOf, 1);
     this.setState({ todos });
   };
 
   onTodoToggleClick = (title) => {
     const todos = [...this.state.todos];
-    const indexOf = todos.findIndex((todo) => (todo.title === title));
+    const indexOf = todos.findIndex((todo) => todo.title === title);
     todos[indexOf].done = !todos[indexOf].done;
     this.setState({ todos });
   };
 
-  onDeleteAll = ()=>{
-    this.setState({todos: []})
-  }
+  onDeleteAll = () => {
+    this.setState({ todos: [] });
+  };
 
   render() {
     console.log(this.state);
     const { todos } = this.state;
 
     let totalTodos = 0;
-    todos.forEach(todo =>{
-      if (!todo.done){
-        totalTodos++
+    todos.forEach((todo) => {
+      if (!todo.done) {
+        totalTodos++;
       }
-    })
+    });
 
     return (
-      <>
-        <input type="text" onInput={this.onTodoInput} />
-        <button onClick={this.onAddClick}>Add</button>
-        <h1>Total todos: {totalTodos}</h1>
-        {todos.map((todo) => {
-          return (
-            <div className={todo.done ? "done" : "undone"}>
-              <p onClick={() => this.onTodoToggleClick(todo.title)}>{todo.title}</p>
-              <button onClick={() => this.onDeleteClick(todo.title)}>
-                Del
-              </button>
-            </div>
-          );
-        })}
-        <button onClick={this.onDeleteAll}>Delete All</button>
-      </>
+      <Interface
+        totalTodos = {totalTodos}
+        onTodoInput={this.onTodoInput}
+        onAddClick={this.onAddClick}
+        todos = {this.state.todos}
+        onTodoToggleClick = {this.onTodoToggleClick}
+        onDeleteClick = {this.onDeleteClick}
+        onDeleteAll = {this.onDeleteAll}
+      />
     );
   }
 }
