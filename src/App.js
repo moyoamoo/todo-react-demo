@@ -7,11 +7,19 @@ class App extends Component {
     this.setState({ todoInput: e.target.value });
   };
 
- onAddClick = ()=>{
-  const todos = [...this.state.todos];
-  todos.push(this.state.todoInput)
-  this.setState({todos})
- }
+  onAddClick = () => {
+    const todos = [...this.state.todos];
+    todos.push(this.state.todoInput);
+    this.setState({ todos });
+  };
+
+  onDeleteClick = (todo) => {
+    console.log(todo);
+    const todos = [...this.state.todos]
+    const indexOf = todos.indexOf(todo);
+    todos.splice(indexOf, 1)
+    this.setState({todos})
+  };
 
   render() {
     console.log(this.state);
@@ -22,7 +30,12 @@ class App extends Component {
         <input type="text" onInput={this.onTodoInput} />
         <button onClick={this.onAddClick}>Add</button>
         {todos.map((todo) => {
-          return <p>{todo}</p>;
+          return (
+            <div>
+              <p>{todo}</p>
+              <button onClick={() => this.onDeleteClick(todo)}>Del</button>
+            </div>
+          );
         })}
       </>
     );
